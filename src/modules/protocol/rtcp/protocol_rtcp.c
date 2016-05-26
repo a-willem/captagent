@@ -80,12 +80,12 @@ int bind_api(protocol_module_api_t* api)
 
 int w_parse_rtcp_to_json(msg_t *_m)
 {
-	  int json_len;
-	  char *json_rtcp_buffer;
+	  int json_len = 0;
+	  char *json_rtcp_buffer = NULL;
 
 	  _m->mfree = 0;
 	  json_rtcp_buffer = malloc(JSON_BUFFER_LEN);	  
-	  json_rtcp_buffer[0] = '\0';
+	  //json_rtcp_buffer[0] = '\0';
 	  
 	  if((json_len = capt_parse_rtcp((char *)_m->data, _m->len, json_rtcp_buffer, JSON_BUFFER_LEN)) > 0) {
 	      _m->rcinfo.proto_type = rtcp_proto_type;
