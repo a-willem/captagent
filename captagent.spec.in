@@ -191,6 +191,7 @@ autoreconf -if
 %files protocol-rtcp
 %config(noreplace) %{_sysconfdir}/%name/protocol_rtcp.xml
 %config(noreplace) %{_sysconfdir}/%name/captureplans/rtcp_capture_plan.cfg
+%config(noreplace) %{_sysconfdir}/%name/database_hash.xml
 %{_libdir}/%name/modules/protocol_rtcp.so
 
 %files socket-pcap
