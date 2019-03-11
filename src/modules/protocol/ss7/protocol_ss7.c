@@ -120,7 +120,7 @@ static int free_profile(unsigned int idx);
 profile_protocol_t profile_protocol[MAX_PROTOCOLS];
 
 char correlation[100];
-bool enableCorrelation = FALSE;
+bool enableCorrelation = TRUE;
 static const char *isup_last = NULL;
 static srjson_doc_t *isup_json = NULL;
 static uint64_t module_serial = 0;
@@ -517,7 +517,7 @@ static int ss7_parse_isup_to_json(msg_t *msg, char *param1, char *param2)
         /* if the correlation_id has been enabled */
         if(enableCorrelation) 
         {
-        	msg->rcinfo.correlation_id.len = snprintf(correlation, sizeof(correlation), "%d:%d:%d", opc <= dpc ? opc : dpc, opc > dpc ? opc : dpc, cic);
+        	msg->rcinfo.correlation_id.len = snprintf(correlation, sizeof(correlation), "%d:%d:%d", opc <= dpc ? opc : dpc, opc <= dpc ? dpc : opc, cic);
                 msg->rcinfo.correlation_id.s = correlation;
 	}
 
@@ -656,8 +656,8 @@ static int ss7_load_module(xml_node *config) {
 						profile_protocol[profile_size].dialog_type = atoi(value);
 					else if (!strncmp(key, "dialog-timeout", strlen("dialog-timeout")))
 						profile_protocol[profile_size].dialog_timeout = atoi(value);
-					else if (!strncmp(key, "generate-sid", strlen("generate-sid")) && !strncmp(value, "true", 4))
-					         enableCorrelation = TRUE;
+					else if (!strncmp(key, "generate-sid", strlen("generate-sid")) && !strncmp(value, "false", 5))
+					         enableCorrelation = FALSE;
 				}
 
 				nextparam: params = params->next;
